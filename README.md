@@ -7,48 +7,40 @@ This report describes the design & implementation results of a cycle-accurate si
 
 ## 2. Module Design
 The simulator is decomposed into six Python modules with distinct responsibilities:
-Module
-Responsibility
-sim.py
-Main simulation loop, CDB writeback, command-line interface, output formatting
-struct.py
-Factory functions for all dict-based hardware structures (RS, LS queue, FU entries); global tag and issue-sequence generators
-conf_parser.py
-Parses config.txt (unit parameters, registers, memory) and program .dat files (instructions, labels)
-issue.py
-Issue stage: decodes instruction, looks up/renames operands via the RT, allocates a reservation station or LS queue slot
-exec.py
-Execute stage: advances FU pipelines, collects finished entries, dispatches oldest-ready RS entries to free FUs, computes ALU/FP/branch results
-ld_st_unit.py
-Load/Store Unit: advances the non-pipelined LSU, dispatches ready LS entries, performs memory reads/writes
+> sim.py - Main simulation loop, CDB writeback, command-line interface, output formatting
+> struct.py - Factory functions for all dict-based hardware structures (RS, LS queue, FU entries); global tag and issue-sequence generators
+> conf_parser.py - Parses config.txt (unit parameters, registers, memory) and program .dat files (instructions, labels)
+> issue.py - Issue stage: decodes instruction, looks up/renames operands via the RT, allocates a reservation station or LS queue slot
+> exec.py - Execute stage: advances FU pipelines, collects finished entries, dispatches oldest-ready RS entries to free FUs, computes ALU/FP/branch results
+> ld_st_unit.py - Load/Store Unit: advances the non-pipelined LSU, dispatches ready LS entries, performs memory reads/writes
 
 ## 3. Key Data Structures
-Reservation Station (RS) Entry - Hashmap
-Load/Store Queue (LS) Entry - Hashmap
-Functional Unit (FU) Entry - List
-Register Table - Hashmap
-Memory - Hashmap
-Tag and Issue Sequence Generators - Integers
+> Reservation Station (RS) Entry - Hashmap
+> Load/Store Queue (LS) Entry - Hashmap
+> Functional Unit (FU) Entry - List
+> Register Table - Hashmap
+> Memory - Hashmap
+> Tag & Issue Sequence Generators - Integers
 
 ## 4. Benchmark Results
-Total Execution Cycles: 41
-Structural Stalls: 0
+> Total Execution Cycles: 41
+> Structural Stalls: 0
 
-Final Integer Registers:
-  R2 = 100
+> Final Integer Registers:
+>   R2 = 100
 
-Final FP Registers:
-  F0 = 195.0
-  F2 = 12.0
-  F4 = 27.0
+> Final FP Registers:
+>   F0 = 195.0
+>   F2 = 12.0
+>   F4 = 27.0
 
-Final Memory:
-  Mem[0] = 111.0
-  Mem[8] = 14.0
-  Mem[16] = 5.0
-  Mem[24] = 10.0
-  Mem[100] = 2.0
-  Mem[108] = 195.0
-  Mem[116] = 63.0
-  Mem[124] = 128.0
-  Mem[200] = 12.0
+> Final Memory:
+>   Mem[0] = 111.0
+>   Mem[8] = 14.0
+>   Mem[16] = 5.0
+>   Mem[24] = 10.0
+>   Mem[100] = 2.0
+>   Mem[108] = 195.0
+>   Mem[116] = 63.0
+>   Mem[124] = 128.0
+>   Mem[200] = 12.0
